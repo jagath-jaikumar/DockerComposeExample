@@ -1,0 +1,28 @@
+version: "3"
+
+services:
+  server:
+    container_name: server
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    networks:
+      - simple
+    ports:
+      - "5000:5000"
+  tester:
+    environment:
+    - FLASK_HOST=server
+    container_name: tester
+    build:
+        context: ./tester
+        dockerfile: Dockerfile
+    networks:
+      - simple
+    depends_on:
+      - server
+
+networks:
+    simple:
+      driver_opts:
+        encrypted: ""
